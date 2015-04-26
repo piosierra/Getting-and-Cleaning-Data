@@ -15,6 +15,8 @@ https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Datas
 More information on the data can be found in:
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
 
+Use the file codebook.txt the see information about the variables of the result.
+
 The script expects that file (the compressed data) to be present on the working directory.
 
 Step 1: Merges the training and the test sets to create one data set.
@@ -62,13 +64,15 @@ colnames(data_mean_std) = c("Subject", "Activity", as.character(features_mean_st
 
 Step 5: From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ```
-## Melts data into the long form. Uses "Measurement" as name for the variable column, and keeps 
-## the default name "value" for the value column.
+## Melts data into the long form. Uses "Measurement" as name for the variable column, 
+## and keeps the default name "value" for the value column.
 data_with_activity <- melt(data_mean_std, id=c("Subject", "Activity"), 
-                           measure.vars=c(colnames(data_mean_std[3:88])), variable.name="Measurement")
+                           measure.vars=c(colnames(data_mean_std[3:88])),
+						   variable.name="Measurement")
 
 ## Groups the data by Subject, Activity and Measurement
-data_with_activity_grouped <- dplyr::group_by(data_with_activity,Subject,Activity,Measurement)
+data_with_activity_grouped <- dplyr::group_by(data_with_activity,
+											Subject,Activity,Measurement)
 
 ## Summarises the data by the mean of the values.
 tidy_data <- dplyr::summarise(data_with_activity_grouped,mean=mean(value))
