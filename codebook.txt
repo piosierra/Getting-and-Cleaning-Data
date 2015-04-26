@@ -122,7 +122,11 @@ values:
 "mean": num
 -----------
 Each value represents the mean() of the 128 readings
-for each subject doing an activity for the measurement
+for the measurement for each subject doing an activity
+For more information on the units for each signal use the file:
+UCI HAR Dataset/features_info.txt
+
+
 
 
 
