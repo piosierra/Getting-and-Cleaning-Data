@@ -1,5 +1,5 @@
 # Getting-and-Cleaning-Data
-##This is a repository for the course project for Getting and Cleaning Data in Coursera.
+###This is a repository for the course project for Getting and Cleaning Data in Coursera.
 
 The project includes an R file to create a tidy data set according the the course project criteria in several steps:
 
@@ -19,11 +19,11 @@ http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartpho
 
 Use the file `codebook.txt` to learn information about the variables of the result.
 
-## Script description
+### Script description
 
-The script expects the file `getdata_projectfiles_UCI HAR Dataset.zip`(the compressed data) to be present on the working directory.
+The script expects the file `getdata_projectfiles_UCI HAR Dataset.zip` (the compressed data) to be present on the working directory.
 
-*Step 1:* Merges the training and the test sets to create one data set.
+**Step 1:** Merges the training and the test sets to create one data set.
 First we bind the columns of each data set, and then we bind the rows of the two sets.
 ```
 ## Binding test data
@@ -42,7 +42,7 @@ all_train <- cbind(subject_train, y_train,X_train)
 all_data <- rbind(all_test, all_train)
 ```
 
-*Step 2:* Extracts only the measurements on the mean and standard deviation for each measurement. 
+**Step 2:** Extracts only the measurements on the mean and standard deviation for each measurement. 
 First read the features table and keep only the measurements related to mean and std.
 Then offset the value of the column by 2 (to account for the 2 columns for Subject and Activity) and select only those columns
 ```
@@ -52,21 +52,21 @@ features_mean_std$V3 = features_mean_std$V1+2
 data_mean_std <- all_data[,c(1,2,features_mean_std$V3)]
 ```
 
-*Step 3:* Uses descriptive activity names to name the activities in the data set
+**Step 3:** Uses descriptive activity names to name the activities in the data set
 Changes the activity numbers by the corresponding label
 ```
 activities <- read.table("UCI HAR Dataset/activity_labels.txt")
 data_mean_std[,2]<- activities[data_mean_std[,2],2]
 ```
 
-*Step 4:* Appropriately labels the data set with descriptive variable names. 
+**Step 4:** Appropriately labels the data set with descriptive variable names. 
 Takes "Subject and "Activity" as names for the data originaly in "subject_test" and "y_test", 
 and the name of the feature for the rest.
 ```
 colnames(data_mean_std) = c("Subject", "Activity", as.character(features_mean_std[,2]))
 ```
 
-*Step 5:* From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+**Step 5:** From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ```
 ## Melts data into the long form. Uses "Measurement" as name for the variable column, 
 ## and keeps the default name "value" for the value column.
